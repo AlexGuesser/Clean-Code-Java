@@ -41,7 +41,7 @@ class AccountControllerTest {
 
     @Test
     @Order(1)
-    void signup_shouldCreateNewAccount() throws Exception {
+    void signup_shouldCreateNewAccount()  throws Exception {
         assertThat(accountRepository.findAll()).isEmpty();
         ObjectMapper mapper = new ObjectMapper();
         mockMvc.perform(post("/account/signup")
