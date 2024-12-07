@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -41,7 +42,7 @@ class AccountControllerTest {
 
     @Test
     @Order(1)
-    void signup_shouldCreateNewAccount()  throws Exception {
+    void signup_shouldCreateNewAccount() throws Exception {
         assertThat(accountRepository.findAll()).isEmpty();
         ObjectMapper mapper = new ObjectMapper();
         mockMvc.perform(post("/account/signup")
@@ -60,7 +61,6 @@ class AccountControllerTest {
     }
 
     @Test
-    @Order(2)
     void signup_shouldReturnBadRequestForInvalidEmail() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mockMvc.perform(post("/account/signup")
@@ -74,7 +74,7 @@ class AccountControllerTest {
     }
 
     @Test
-    @Order(3)
+    @Order(2)
     void getAccountById_shouldReturnTheCorrectAccount() throws Exception {
         List<AccountEntity> allAccounts = accountRepository.findAll();
         assertThat(allAccounts).map(AccountEntity::getName).containsExactly("John Doe");
@@ -83,6 +83,12 @@ class AccountControllerTest {
                 .andExpect(MockMvcResultMatchers.content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("John Doe"));
+    }
+
+    @Test
+    void getAccountById_shouldReturnNotFoundForInvalidId() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/account/" + UUID.randomUUID()))
+                .andExpect(status().isNotFound());
     }
 
 }
