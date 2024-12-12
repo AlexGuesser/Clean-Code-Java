@@ -22,7 +22,7 @@ public class AccountController {
     private Signup signup;
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<AccountDetailDto> getAccountById(@PathVariable String uuid) {
+    public ResponseEntity<AccountDetailDto> getAccountById(@PathVariable("uuid") String uuid) {
         return ResponseEntity.ok(
                 AccountDetailDto.from(
                         getAccount.execute(UUID.fromString(uuid))
