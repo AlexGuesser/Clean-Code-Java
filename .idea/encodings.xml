@@ -4,9 +4,13 @@
     <file url="file://$PROJECT_DIR$/backend/account/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/account/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/invoice/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/invoice/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/payment/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/payment/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/query/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/query/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/ride/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/ride/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
