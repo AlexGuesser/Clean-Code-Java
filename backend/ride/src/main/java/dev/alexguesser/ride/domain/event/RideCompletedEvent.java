@@ -4,8 +4,8 @@ import java.util.UUID;
 
 public record RideCompletedEvent(
         UUID rideId,
-        float amount,
-        float distance
+        double amount,
+        double distance
 ) {
 
     public static String eventName = "rideCompleted";

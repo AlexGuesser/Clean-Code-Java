@@ -1,10 +1,11 @@
 package dev.alexguesser.ride.domain.service;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 public class FareCalculatorFactory {
 
-    public FareCalculator getFareCalculator(ZonedDateTime date) {
+    public static FareCalculator getFareCalculator(LocalDateTime date) {
         if (date.getDayOfMonth() == 1) {
             return new SpecialDayFareCalculator();
         }
