@@ -13,7 +13,7 @@ create table ccca.ride (
 	from_long numeric,
 	to_lat numeric,
 	to_long numeric,
-	date timestamp
+	created_at timestamp
 );
 
 create table ccca.position (
@@ -21,5 +21,5 @@ create table ccca.position (
 	ride_id uuid,
 	lat numeric,
 	long numeric,
-	date timestamp
+	created_at timestamp
 );

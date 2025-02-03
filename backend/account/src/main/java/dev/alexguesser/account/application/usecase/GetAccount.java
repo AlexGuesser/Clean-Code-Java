@@ -18,4 +18,5 @@ public class GetAccount {
         return accountRepository.getAccountById(accountId)
                 .orElseThrow(() -> new EntityNotFoundException("Account not found"));
     }
+
 }

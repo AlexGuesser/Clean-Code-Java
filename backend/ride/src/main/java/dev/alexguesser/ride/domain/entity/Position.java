@@ -1,5 +1,6 @@
 package dev.alexguesser.ride.domain.entity;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -10,17 +11,17 @@ public class Position {
     private UUID positionId;
     private UUID rideId;
     private Coord coord;
-    private LocalDateTime date;
+    private long createdAt;
 
-    public Position(UUID positionId, UUID rideId, Coord coord, LocalDateTime date) {
+    public Position(UUID positionId, UUID rideId, Coord coord, long createdAt) {
         this.positionId = positionId;
         this.rideId = rideId;
         this.coord = coord;
-        this.date = date;
+        this.createdAt = createdAt;
     }
 
     static Position create(UUID rideId, Coord coord) {
-        return new Position(UUID.randomUUID(), rideId, coord, LocalDateTime.now());
+        return new Position(UUID.randomUUID(), rideId, coord, Instant.now().toEpochMilli());
     }
 
     public Position() {
@@ -42,7 +43,7 @@ public class Position {
         this.coord = coord;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public long getCreatedAt() {
+        return createdAt;
     }
 }

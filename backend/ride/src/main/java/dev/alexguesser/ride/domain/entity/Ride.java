@@ -1,6 +1,7 @@
 package dev.alexguesser.ride.domain.entity;
 
 import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
@@ -109,10 +110,20 @@ public class Ride extends Mediator {
             Position nextPosition = positions.get(i + 1);
             float distance = DistanceCalculator.calculate(position.getCoord(), nextPosition.getCoord());
             this.distance += distance;
-            this.fare += FareCalculatorFactory.getFareCalculator(position.getDate()).calculate(distance);
+            this.fare += FareCalculatorFactory.getFareCalculator(
+                    Instant.ofEpochMilli(position.getCreatedAt()).atZone(ZoneOffset.UTC).toLocalDateTime()
+            ).calculate(distance);
         }
         this.status.finish();
         RideCompletedEvent event = new RideCompletedEvent(this.getRideId(), this.fare, this.distance);
         this.notify(RideCompletedEvent.eventName, event);
+    }
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public float getFare() {
+        return fare;
     }
 }

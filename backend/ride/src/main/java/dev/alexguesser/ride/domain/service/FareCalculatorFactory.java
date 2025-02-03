@@ -1,7 +1,6 @@
 package dev.alexguesser.ride.domain.service;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 public class FareCalculatorFactory {
 

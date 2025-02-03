@@ -32,6 +32,10 @@ public abstract class RideStatus {
         return this.ride;
     }
 
+    public String getValue() {
+        return value;
+    }
+
     public static class RideStatusFactory {
         public static RideStatus create(String status, Ride ride) {
             return switch (status) {
