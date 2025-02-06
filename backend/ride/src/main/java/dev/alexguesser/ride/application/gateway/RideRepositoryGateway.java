@@ -9,4 +9,9 @@ public interface RideRepositoryGateway {
     Optional<Ride> getRideById(UUID uuid);
 
     void updateRide(Ride ride);
+
+    boolean hasActiveRideByPassengerId(UUID passengerId);
+
+    void save(Ride ride);
+
 }

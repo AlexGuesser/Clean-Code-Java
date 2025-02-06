@@ -6,6 +6,6 @@ public interface QueueGateway {
 
     void publish(String exchange, Object data);
 
-    void consume(String queue, Function callback);
+    void consume(String queue, Function<Object, Void> callback);
 
 }

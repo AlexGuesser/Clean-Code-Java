@@ -44,7 +44,7 @@ public class Ride extends Mediator {
         this.createdAt = createdAt;
     }
 
-    public Ride create(
+    public static Ride create(
             UUID passengerId,
             Coord from,
             Coord to

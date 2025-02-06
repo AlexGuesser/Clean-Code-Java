@@ -11,4 +11,8 @@ public record Coord(
         }
     }
 
+    public static Coord create(int latitude, int longitude) {
+        return new Coord(latitude, longitude);
+    }
+
 }
