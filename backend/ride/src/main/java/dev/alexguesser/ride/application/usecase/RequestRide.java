@@ -6,7 +6,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import dev.alexguesser.account.infra.controller.dto.AccountDetailDto;
 import dev.alexguesser.ride.application.gateway.RideRepositoryGateway;
 import dev.alexguesser.ride.application.usecase.input.RequestRideInput;
 import dev.alexguesser.ride.application.usecase.output.RequestRideOutput;
@@ -31,7 +30,7 @@ public class RequestRide {
     private QueueGateway queue;
 
     public RequestRideOutput execute(RequestRideInput input) {
-        AccountDetailDto account = accountGateway.getAccountById(input.passengerId().toString());
+        AccountGateway.AccountDetailDto account = accountGateway.getAccountById(input.passengerId().toString());
         if (account == null) {
             throw new EntityNotFoundException("Account not found");
         }

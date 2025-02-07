@@ -8,4 +8,5 @@ import dev.alexguesser.ride.domain.entity.Position;
 public interface PositionRepositoryGateway {
     List<Position> getPositionsByRideId(UUID uuid);
 
+    void save(Position position);
 }

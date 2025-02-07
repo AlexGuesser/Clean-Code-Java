@@ -35,7 +35,7 @@ public class JpaRideRepositoryGateway implements RideRepositoryGateway {
 
     @Override
     public boolean hasActiveRideByPassengerId(UUID passengerId) {
-        return rideRepository.hasActiveRideByPassengerId(passengerId.toString());
+        return rideRepository.hasActiveRideByPassengerId(passengerId);
     }
 
     @Override

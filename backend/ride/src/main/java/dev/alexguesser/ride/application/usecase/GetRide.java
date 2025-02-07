@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import dev.alexguesser.ride.application.gateway.PositionRepositoryGateway;
 import dev.alexguesser.ride.application.gateway.RideRepositoryGateway;
@@ -14,6 +15,7 @@ import dev.alexguesser.ride.domain.entity.Position;
 import dev.alexguesser.ride.domain.entity.Ride;
 import jakarta.persistence.EntityNotFoundException;
 
+@Component
 public class GetRide {
 
     @Autowired

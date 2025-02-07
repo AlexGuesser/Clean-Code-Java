@@ -27,4 +27,9 @@ public class JpaPositionRepositoryGateway implements PositionRepositoryGateway {
                 .map(positionEntityMapper::toDomain)
                 .toList();
     }
+
+    @Override
+    public void save(Position position) {
+        positionRepository.save(positionEntityMapper.toEntity(position));
+    }
 }

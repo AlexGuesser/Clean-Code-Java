@@ -1,16 +1,16 @@
 package dev.alexguesser.ride.application.usecase;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import dev.alexguesser.account.application.usecase.gateways.AccountRepositoryGateway;
-import dev.alexguesser.account.domain.entity.Account;
 import dev.alexguesser.ride.application.gateway.RideRepositoryGateway;
 import dev.alexguesser.ride.application.usecase.input.AcceptRideInput;
 import dev.alexguesser.ride.domain.entity.Ride;
 import dev.alexguesser.ride.domain.event.RideAcceptedEvent;
+import dev.alexguesser.ride.infra.gateway.AccountGateway;
 import dev.alexguesser.ride.infra.queue.Exchanges;
 import dev.alexguesser.ride.infra.queue.QueueGateway;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,7 +19,7 @@ import jakarta.persistence.EntityNotFoundException;
 public class AcceptRide {
 
     @Autowired
-    private AccountRepositoryGateway accountRepositoryGateway;
+    private AccountGateway accountRepositoryGateway;
 
     @Autowired
     private RideRepositoryGateway rideRepositoryGateway;
@@ -28,11 +28,11 @@ public class AcceptRide {
     private QueueGateway queue;
 
     public void execute(AcceptRideInput input) {
-        Optional<Account> account = accountRepositoryGateway.getAccountById(input.rideId());
-        if (account.isEmpty()) {
+        AccountGateway.AccountDetailDto account = accountRepositoryGateway.getAccountById(input.rideId().toString());
+        if (account == null) {
             throw new EntityNotFoundException("Account not found");
         }
-        if (!account.get().isDriver()) {
+        if (!account.isDriver()) {
             throw new IllegalArgumentException("Account is not a driver");
         }
         Optional<Ride> ride = rideRepositoryGateway.getRideById(input.rideId());
@@ -45,7 +45,8 @@ public class AcceptRide {
                 Exchanges.RIDE_ACCEPTED.name(),
                 new RideAcceptedEvent(
                         ride.get().getRideId(),
-                        account.get().getAccountId())
+                        UUID.fromString(account.accountId())
+                )
         );
     }
 

@@ -126,4 +126,8 @@ public class Ride extends Mediator {
     public float getFare() {
         return fare;
     }
+
+    public void start() {
+        this.status.start();
+    }
 }

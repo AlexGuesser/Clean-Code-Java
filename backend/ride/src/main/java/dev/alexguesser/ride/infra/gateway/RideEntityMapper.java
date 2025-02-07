@@ -30,7 +30,7 @@ public class RideEntityMapper {
                 ride.getFrom().latitude(),
                 ride.getTo().longitude(),
                 ride.getTo().latitude(),
-                ride.getStatus().toString(),
+                ride.getStatus().getValue(),
                 ride.getCreatedAt()
         );
     }

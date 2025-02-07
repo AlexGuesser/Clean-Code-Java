@@ -20,7 +20,7 @@ public class Position {
         this.createdAt = createdAt;
     }
 
-    static Position create(UUID rideId, Coord coord) {
+    public static Position create(UUID rideId, Coord coord) {
         return new Position(UUID.randomUUID(), rideId, coord, Instant.now().toEpochMilli());
     }
 

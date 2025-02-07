@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-import dev.alexguesser.account.infra.controller.dto.AccountDetailDto;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.annotation.Nullable;
 
 @Component
 public class AccountGateway {
@@ -15,9 +18,24 @@ public class AccountGateway {
     public AccountDetailDto getAccountById(String id) {
         return
                 restClient.get()
-                        .uri("localhost:8080/account/" + id)
+                        .uri("http://localhost:8080/account/" + id)
                         .retrieve()
                         .body(AccountDetailDto.class);
     }
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public record AccountDetailDto(
+            String accountId,
+            String name,
+            String email,
+            String cpf,
+            @Nullable String carPlate,
+            @JsonProperty("isPassenger")
+            boolean isPassenger,
+            @JsonProperty("isDriver")
+            boolean isDriver
+    ) {
+    }
+
 }
+

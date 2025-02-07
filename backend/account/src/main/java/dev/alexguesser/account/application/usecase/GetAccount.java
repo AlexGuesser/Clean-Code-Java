@@ -12,10 +12,10 @@ import java.util.UUID;
 public class GetAccount {
 
     @Autowired
-    private AccountRepositoryGateway accountRepository;
+    private AccountRepositoryGateway accountGateway;
 
     public Account execute(UUID accountId) {
-        return accountRepository.getAccountById(accountId)
+        return accountGateway.getAccountById(accountId)
                 .orElseThrow(() -> new EntityNotFoundException("Account not found"));
     }
 

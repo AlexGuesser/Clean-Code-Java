@@ -1,4 +1,4 @@
-package dev.alexguesser.account.infra.controller;
+package dev.alexguesser.ride.infra.controller;
 
 import java.util.Date;
 
@@ -39,6 +39,5 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public record ErrorDetails(Date timestamp, String message, String details) {
-    }
+    public record ErrorDetails(Date timestamp, String message, String details){}
 }
