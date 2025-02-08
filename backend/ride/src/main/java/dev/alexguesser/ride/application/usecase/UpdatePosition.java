@@ -22,7 +22,7 @@ public class UpdatePosition {
 
     public void execute(UpdatePositionInput input) {
         Ride ride = rideRepositoryGateway.getRideById(input.rideId())
-                .orElseThrow(() -> new EntityNotFoundException("Account not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Ride not found"));
         Position position = Position.create(input.rideId(), new Coord(input.latitude(), input.longitude()));
         positionRepositoryGateway.save(position);
     }

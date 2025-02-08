@@ -17,7 +17,9 @@ public class PositionEntity {
     private UUID positionId;
     @Column(name = "ride_id")
     private UUID rideId;
+    @Column(name = "lat")
     private int latitude;
+    @Column(name = "long")
     private int longitude;
     @Column(name = "created_at")
     private long createdAt;

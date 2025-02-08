@@ -28,7 +28,7 @@ public class AcceptRide {
     private QueueGateway queue;
 
     public void execute(AcceptRideInput input) {
-        AccountGateway.AccountDetailDto account = accountRepositoryGateway.getAccountById(input.rideId().toString());
+        AccountGateway.AccountDetailDto account = accountRepositoryGateway.getAccountById(input.driverId().toString());
         if (account == null) {
             throw new EntityNotFoundException("Account not found");
         }

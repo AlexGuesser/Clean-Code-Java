@@ -29,7 +29,7 @@ public class FinishRide {
     @Autowired
     QueueGateway queue;
 
-    void execute(FinishRideInput input) {
+    public void execute(FinishRideInput input) {
         Optional<Ride> rideOptional = rideRepositoryGateway.getRideById(input.rideId());
         if (rideOptional.isEmpty()) {
             throw new EntityNotFoundException("Ride not found");

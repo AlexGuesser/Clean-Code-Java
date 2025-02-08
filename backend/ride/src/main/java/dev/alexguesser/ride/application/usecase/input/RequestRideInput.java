@@ -11,7 +11,7 @@ public record RequestRideInput(
         int toLat,
         int toLong
 ) {
-    public static RequestRideInput toInput(RequestRideDto dto) {
+    public static RequestRideInput fromDto(RequestRideDto dto) {
         return new RequestRideInput(
                 UUID.fromString(dto.passengerId()),
                 dto.fromLat(),
