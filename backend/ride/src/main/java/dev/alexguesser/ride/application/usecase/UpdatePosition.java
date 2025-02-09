@@ -7,7 +7,6 @@ import dev.alexguesser.ride.application.gateway.PositionRepositoryGateway;
 import dev.alexguesser.ride.application.gateway.RideRepositoryGateway;
 import dev.alexguesser.ride.application.usecase.input.UpdatePositionInput;
 import dev.alexguesser.ride.domain.entity.Position;
-import dev.alexguesser.ride.domain.entity.Ride;
 import dev.alexguesser.ride.domain.vo.Coord;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -21,7 +20,7 @@ public class UpdatePosition {
     private PositionRepositoryGateway positionRepositoryGateway;
 
     public void execute(UpdatePositionInput input) {
-        Ride ride = rideRepositoryGateway.getRideById(input.rideId())
+        rideRepositoryGateway.getRideById(input.rideId())
                 .orElseThrow(() -> new EntityNotFoundException("Ride not found"));
         Position position = Position.create(input.rideId(), new Coord(input.latitude(), input.longitude()));
         positionRepositoryGateway.save(position);
