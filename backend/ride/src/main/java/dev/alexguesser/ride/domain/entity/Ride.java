@@ -1,5 +1,7 @@
 package dev.alexguesser.ride.domain.entity;
 
+import static java.util.Objects.requireNonNull;
+
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -36,12 +38,12 @@ public class Ride extends Mediator {
             String status,
             long createdAt
     ) {
-        this.rideId = rideId;
-        this.passengerId = passengerId;
+        this.rideId = requireNonNull(rideId);
+        this.passengerId = requireNonNull(passengerId);
         this.driverId = driverId;
-        this.from = from;
-        this.to = to;
-        this.status = RideStatus.RideStatusFactory.create(status, this);
+        this.from = requireNonNull(from);
+        this.to = requireNonNull(to);
+        this.status = requireNonNull(RideStatus.RideStatusFactory.create(status, this));
         this.createdAt = createdAt;
         this.straightDistance = DistanceCalculator.calculate(from, to);
     }

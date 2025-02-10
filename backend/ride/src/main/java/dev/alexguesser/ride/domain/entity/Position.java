@@ -1,5 +1,7 @@
 package dev.alexguesser.ride.domain.entity;
 
+import static java.util.Objects.requireNonNull;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -14,9 +16,9 @@ public class Position {
     private long createdAt;
 
     public Position(UUID positionId, UUID rideId, Coord coord, long createdAt) {
-        this.positionId = positionId;
-        this.rideId = rideId;
-        this.coord = coord;
+        this.positionId = requireNonNull(positionId);
+        this.rideId = requireNonNull(rideId);
+        this.coord = requireNonNull(coord);
         this.createdAt = createdAt;
     }
 
