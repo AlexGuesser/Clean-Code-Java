@@ -7,19 +7,20 @@ create table ccca.ride (
 	passenger_id uuid,
 	driver_id uuid,
 	status text,
-	fare numeric,
-	distance numeric,
-	from_lat numeric,
-	from_long numeric,
-	to_lat numeric,
-	to_long numeric,
-	created_at bigint
+	fare float,
+	distance float,
+	from_lat float,
+	from_long float,
+	to_lat float,
+	to_long float,
+	created_at bigint,
+	straight_distance float
 );
 
 create table ccca.position (
 	position_id uuid primary key,
 	ride_id uuid,
-	lat numeric,
-	long numeric,
+	lat float,
+	long float,
 	created_at bigint
 );

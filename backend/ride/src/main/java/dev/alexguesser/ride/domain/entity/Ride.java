@@ -5,8 +5,8 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
-import dev.alexguesser.ride.domain.DistanceCalculator;
 import dev.alexguesser.ride.domain.event.RideCompletedEvent;
+import dev.alexguesser.ride.domain.service.DistanceCalculator;
 import dev.alexguesser.ride.domain.service.FareCalculatorFactory;
 import dev.alexguesser.ride.domain.vo.Coord;
 import dev.alexguesser.ride.domain.vo.rideStatus.RideStatus;
@@ -23,8 +23,9 @@ public class Ride extends Mediator {
     private Coord to;
     private RideStatus status;
     private long createdAt;
-    private float distance = 0;
-    private float fare = 0;
+    private double distance = 0;
+    private double fare = 0;
+    private double straightDistance;
 
     public Ride(
             UUID rideId,
@@ -42,6 +43,7 @@ public class Ride extends Mediator {
         this.to = to;
         this.status = RideStatus.RideStatusFactory.create(status, this);
         this.createdAt = createdAt;
+        this.straightDistance = DistanceCalculator.calculate(from, to);
     }
 
     public static Ride create(
@@ -89,6 +91,10 @@ public class Ride extends Mediator {
         return createdAt;
     }
 
+    public double getStraightDistance() {
+        return straightDistance;
+    }
+
     public void setStatus(RideStatus status) {
         this.status = status;
     }
@@ -108,7 +114,7 @@ public class Ride extends Mediator {
         for (int i = 0; i < positions.size() - 1; i++) {
             Position position = positions.get(i);
             Position nextPosition = positions.get(i + 1);
-            float distance = DistanceCalculator.calculate(position.getCoord(), nextPosition.getCoord());
+            double distance = DistanceCalculator.calculate(position.getCoord(), nextPosition.getCoord());
             this.distance += distance;
             this.fare += FareCalculatorFactory.getFareCalculator(
                     Instant.ofEpochMilli(position.getCreatedAt()).atZone(ZoneOffset.UTC).toLocalDateTime()
@@ -119,11 +125,11 @@ public class Ride extends Mediator {
         this.notify(RideCompletedEvent.eventName, event);
     }
 
-    public float getDistance() {
+    public double getDistance() {
         return distance;
     }
 
-    public float getFare() {
+    public double getFare() {
         return fare;
     }
 

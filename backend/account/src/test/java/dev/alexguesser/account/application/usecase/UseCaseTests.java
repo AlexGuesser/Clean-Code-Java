@@ -1,4 +1,4 @@
-package dev.alexguesser.account.usecase;
+package dev.alexguesser.account.application.usecase;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

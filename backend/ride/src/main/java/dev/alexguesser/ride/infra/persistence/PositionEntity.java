@@ -2,7 +2,6 @@ package dev.alexguesser.ride.infra.persistence;
 
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,16 +17,16 @@ public class PositionEntity {
     @Column(name = "ride_id")
     private UUID rideId;
     @Column(name = "lat")
-    private int latitude;
+    private double latitude;
     @Column(name = "long")
-    private int longitude;
+    private double longitude;
     @Column(name = "created_at")
     private long createdAt;
 
     public PositionEntity() {
     }
 
-    public PositionEntity(UUID positionId, UUID rideId, Integer latitude, Integer longitude, long createdAt) {
+    public PositionEntity(UUID positionId, UUID rideId, double latitude, double longitude, long createdAt) {
         this.positionId = positionId;
         this.rideId = rideId;
         this.latitude = latitude;
@@ -43,11 +42,11 @@ public class PositionEntity {
         return rideId;
     }
 
-    public int getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public int getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 

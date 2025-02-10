@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import dev.alexguesser.ride.application.gateway.PositionRepositoryGateway;
 import dev.alexguesser.ride.application.gateway.RideRepositoryGateway;
 import dev.alexguesser.ride.application.usecase.output.GetRideOutput;
-import dev.alexguesser.ride.domain.DistanceCalculator;
 import dev.alexguesser.ride.domain.entity.Position;
 import dev.alexguesser.ride.domain.entity.Ride;
+import dev.alexguesser.ride.domain.service.DistanceCalculator;
 import jakarta.persistence.EntityNotFoundException;
 
 @Component
@@ -30,7 +30,7 @@ public class GetRide {
             throw new EntityNotFoundException("Ride not found");
         }
         List<Position> positionsByRideId = positionRepositoryGateway.getPositionsByRideId(rideId);
-        float distance = getDistance(ride.get(), positionsByRideId);
+        double distance = getDistance(ride.get(), positionsByRideId);
         return new GetRideOutput(
                 ride.get().getRideId(),
                 ride.get().getPassengerId(),
@@ -42,12 +42,13 @@ public class GetRide {
                 ride.get().getDriverId(),
                 positionsByRideId,
                 distance,
-                ride.get().getFare()
+                ride.get().getFare(),
+                ride.get().getStraightDistance()
         );
 
     }
 
-    private float getDistance(Ride ride, List<Position> positions) {
+    private double getDistance(Ride ride, List<Position> positions) {
         if (ride.getStatus().getValue().equals("finished")) {
             return ride.getDistance();
         }

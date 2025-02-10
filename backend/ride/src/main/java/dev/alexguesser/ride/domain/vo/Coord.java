@@ -1,8 +1,8 @@
 package dev.alexguesser.ride.domain.vo;
 
 public record Coord(
-        int latitude,
-        int longitude
+        double latitude,
+        double longitude
 ) {
 
     public Coord {
@@ -11,7 +11,7 @@ public record Coord(
         }
     }
 
-    public static Coord create(int latitude, int longitude) {
+    public static Coord create(double latitude, double longitude) {
         return new Coord(latitude, longitude);
     }
 

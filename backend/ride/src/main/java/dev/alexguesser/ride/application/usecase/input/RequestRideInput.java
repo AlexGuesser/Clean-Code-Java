@@ -6,10 +6,10 @@ import dev.alexguesser.ride.infra.controller.dto.RequestRideDto;
 
 public record RequestRideInput(
         UUID passengerId,
-        int fromLat,
-        int fromLong,
-        int toLat,
-        int toLong
+        double fromLat,
+        double fromLong,
+        double toLat,
+        double toLong
 ) {
     public static RequestRideInput fromDto(RequestRideDto dto) {
         return new RequestRideInput(

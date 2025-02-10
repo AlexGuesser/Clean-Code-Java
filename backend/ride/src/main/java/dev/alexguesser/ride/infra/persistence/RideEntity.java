@@ -21,21 +21,23 @@ public class RideEntity {
     @Column(name = "driver_id", nullable = true)
     private UUID driverId;
     @Column(name = "from_long")
-    private Integer fromLongitude;
+    private Double fromLongitude;
     @Column(name = "from_lat")
-    private Integer fromLatitude;
+    private Double fromLatitude;
     @Column(name = "to_long")
-    private Integer toLongitude;
+    private Double toLongitude;
     @Column(name = "to_lat")
-    private Integer toLatitude;
+    private Double toLatitude;
     private String status;
     @Column(name = "created_at")
     private long createdAt;
+    @Column(name = "straight_distance")
+    private double straightDistance;
 
     public RideEntity() {
     }
 
-    public RideEntity(UUID rideId, UUID passengerId, @Nullable UUID driverId, Integer fromLongitude, Integer fromLatitude, Integer toLongitude, Integer toLatitude, String status, long createdAt) {
+    public RideEntity(UUID rideId, UUID passengerId, @Nullable UUID driverId, Double fromLongitude, Double fromLatitude, Double toLongitude, Double toLatitude, String status, long createdAt, Double straightDistance) {
         this.rideId = rideId;
         this.passengerId = passengerId;
         this.driverId = driverId;
@@ -45,6 +47,7 @@ public class RideEntity {
         this.toLatitude = toLatitude;
         this.status = status;
         this.createdAt = createdAt;
+        this.straightDistance = straightDistance;
     }
 
     public UUID getRideId() {
@@ -60,19 +63,19 @@ public class RideEntity {
         return driverId;
     }
 
-    public Integer getFromLongitude() {
+    public Double getFromLongitude() {
         return fromLongitude;
     }
 
-    public Integer getFromLatitude() {
+    public Double getFromLatitude() {
         return fromLatitude;
     }
 
-    public Integer getToLongitude() {
+    public Double getToLongitude() {
         return toLongitude;
     }
 
-    public Integer getToLatitude() {
+    public Double getToLatitude() {
         return toLatitude;
     }
 
@@ -82,5 +85,9 @@ public class RideEntity {
 
     public long getCreatedAt() {
         return createdAt;
+    }
+
+    public double getStraightDistance() {
+        return straightDistance;
     }
 }

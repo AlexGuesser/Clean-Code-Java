@@ -12,14 +12,14 @@ import dev.alexguesser.ride.domain.vo.rideStatus.RideStatus;
 public record GetRideOutput(
         UUID rideId,
         UUID passengerId,
-        int fromLat,
-        int fromLong,
-        int toLat,
-        int toLong,
+        double fromLat,
+        double fromLong,
+        double toLat,
+        double toLong,
         RideStatus status,
         UUID driverId,
         List<Position> positions,
-        float distance,
-        float fare
-) {
+        double distance,
+        double fare,
+        double straightDistance) {
 }
