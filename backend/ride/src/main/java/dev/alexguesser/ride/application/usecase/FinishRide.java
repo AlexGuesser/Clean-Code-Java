@@ -40,7 +40,7 @@ public class FinishRide {
                 (event) -> {
                     rideRepositoryGateway.updateRide(ride);
                     queue.publish(
-                            Exchanges.RIDE_COMPLETED.name(),
+                            Exchanges.RIDE_COMPLETED.getName(),
                             event
                     );
                     return null;

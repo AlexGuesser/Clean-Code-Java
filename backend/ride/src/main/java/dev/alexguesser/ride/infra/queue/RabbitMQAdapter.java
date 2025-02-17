@@ -2,7 +2,6 @@ package dev.alexguesser.ride.infra.queue;
 
 import java.util.function.Function;
 
-import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class RabbitMQAdapter implements QueueGateway {
-
-    @Autowired
-    private AmqpAdmin amqpAdmin;
 
     @Autowired
     private AmqpTemplate amqpTemplate;

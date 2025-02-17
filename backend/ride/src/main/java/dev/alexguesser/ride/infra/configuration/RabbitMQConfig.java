@@ -15,41 +15,29 @@ public class RabbitMQConfig {
     static final String RIDE_ACCEPTED_EXCHANGE = "rideAccepted";
     static final String RIDE_COMPLETED_EXCHANGE = "rideCompleted";
 
-    static final String RIDE_REQUESTED_QUEUE = "rideRequested.updateProjection";
-    static final String RIDE_ACCEPTED_QUEUE = "rideAccepted.updateProjection";
-    static final String RIDE_COMPLETED_UPDATE_QUEUE = "rideCompleted.updateProjection";
-    static final String RIDE_COMPLETED_PAYMENT_QUEUE = "rideCompleted.processPayment";
-    static final String RIDE_COMPLETED_INVOICE_QUEUE = "rideCompleted.generateInvoice";
-    static final String RIDE_COMPLETED_RECEIPT_QUEUE = "rideCompleted.sendReceipt";
+    static final String UPDATE_PROJECTION_QUEUE = "updateProjection";
+    static final String PROCESS_PAYMENT_QUEUE = "processPayment";
+    static final String GENERATE_INVOICE_QUEUE = "generateInvoice";
+    static final String SEND_RECEIPT_QUEUE = "sendReceipt";
 
     @Bean
-    Queue rideRequestedQueue() {
-        return new Queue(RIDE_REQUESTED_QUEUE, true);
+    Queue updateProjectionQueue() {
+        return new Queue(UPDATE_PROJECTION_QUEUE, true);
     }
 
     @Bean
-    Queue rideAcceptedQueue() {
-        return new Queue(RIDE_ACCEPTED_QUEUE, true);
+    Queue processPaymentQueue() {
+        return new Queue(PROCESS_PAYMENT_QUEUE, true);
     }
 
     @Bean
-    Queue rideCompletedUpdateQueue() {
-        return new Queue(RIDE_COMPLETED_UPDATE_QUEUE, true);
+    Queue generateInvoiceQueue() {
+        return new Queue(GENERATE_INVOICE_QUEUE, true);
     }
 
     @Bean
-    Queue rideCompletedPaymentQueue() {
-        return new Queue(RIDE_COMPLETED_PAYMENT_QUEUE, true);
-    }
-
-    @Bean
-    Queue rideCompletedInvoiceQueue() {
-        return new Queue(RIDE_COMPLETED_INVOICE_QUEUE, true);
-    }
-
-    @Bean
-    Queue rideCompletedReceiptQueue() {
-        return new Queue(RIDE_COMPLETED_RECEIPT_QUEUE, true);
+    Queue sendReceiptQueue() {
+        return new Queue(SEND_RECEIPT_QUEUE, true);
     }
 
     @Bean
@@ -68,40 +56,31 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    Binding rideRequestedBinding(@Qualifier("rideRequestedQueue") Queue rideRequestedQueue, @Qualifier("rideRequestedExchange") DirectExchange rideRequestedExchange) {
-        return BindingBuilder.bind(rideRequestedQueue).to(rideRequestedExchange).with("");
+    Binding updateProjectionBinding(@Qualifier("updateProjectionQueue") Queue updateProjectionQueue, @Qualifier("rideRequestedExchange") DirectExchange rideRequestedExchange) {
+        return BindingBuilder.bind(updateProjectionQueue).to(rideRequestedExchange).with("");
     }
 
     @Bean
-    Binding rideAcceptedBinding(@Qualifier("rideAcceptedQueue") Queue rideAcceptedQueue, @Qualifier("rideAcceptedExchange") DirectExchange rideAcceptedExchange) {
-        return BindingBuilder.bind(rideAcceptedQueue).to(rideAcceptedExchange).with("");
+    Binding processPaymentQueueBinding(@Qualifier("processPaymentQueue") Queue processPaymentQueue, @Qualifier("rideCompletedExchange") DirectExchange rideCompletedExchange) {
+        return BindingBuilder.bind(processPaymentQueue).to(rideCompletedExchange).with("");
     }
 
     @Bean
-    Binding rideCompletedUpdateBinding(@Qualifier("rideCompletedUpdateQueue") Queue rideCompletedUpdateQueue, @Qualifier("rideCompletedExchange") DirectExchange rideCompletedExchange) {
-        return BindingBuilder.bind(rideCompletedUpdateQueue).to(rideCompletedExchange).with("");
+    Binding generateInvoiceBinding(@Qualifier("generateInvoiceQueue") Queue generateInvoiceQueue, @Qualifier("rideCompletedExchange") DirectExchange rideCompletedExchange) {
+        return BindingBuilder.bind(generateInvoiceQueue).to(rideCompletedExchange).with("");
     }
 
     @Bean
-    Binding rideCompletedPaymentBinding(@Qualifier("rideCompletedPaymentQueue") Queue rideCompletedPaymentQueue, @Qualifier("rideCompletedExchange") DirectExchange rideCompletedExchange) {
-        return BindingBuilder.bind(rideCompletedPaymentQueue).to(rideCompletedExchange).with("");
-    }
-
-    @Bean
-    Binding rideCompletedInvoiceBinding(@Qualifier("rideCompletedInvoiceQueue") Queue rideCompletedInvoiceQueue, @Qualifier("rideCompletedExchange") DirectExchange rideCompletedExchange) {
-        return BindingBuilder.bind(rideCompletedInvoiceQueue).to(rideCompletedExchange).with("");
-    }
-
-    @Bean
-    Binding rideCompletedReceiptBinding(@Qualifier("rideCompletedReceiptQueue") Queue rideCompletedReceiptQueue, @Qualifier("rideCompletedExchange") DirectExchange rideCompletedExchange) {
-        return BindingBuilder.bind(rideCompletedReceiptQueue).to(rideCompletedExchange).with("");
+    Binding sendReceiptBinding(@Qualifier("sendReceiptQueue") Queue sendReceiptQueue, @Qualifier("rideCompletedExchange") DirectExchange rideCompletedExchange) {
+        return BindingBuilder.bind(sendReceiptQueue).to(rideCompletedExchange).with("");
     }
 
     @Bean
     SimpleMessageListenerContainer container(ConnectionFactory connectionFactory) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(RIDE_REQUESTED_QUEUE, RIDE_ACCEPTED_QUEUE, RIDE_COMPLETED_UPDATE_QUEUE, RIDE_COMPLETED_PAYMENT_QUEUE, RIDE_COMPLETED_INVOICE_QUEUE, RIDE_COMPLETED_RECEIPT_QUEUE);
+        container.setQueueNames(UPDATE_PROJECTION_QUEUE, PROCESS_PAYMENT_QUEUE, GENERATE_INVOICE_QUEUE, SEND_RECEIPT_QUEUE);
+        container.setMessageListener(message -> {});
         return container;
     }
 }
