@@ -5,6 +5,7 @@ import java.util.function.Function;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,9 +17,12 @@ public class RabbitMQAdapter implements QueueGateway {
     @Autowired
     private AmqpTemplate amqpTemplate;
 
+    @Autowired
+    private MappingJackson2MessageConverter mappingJackson2MessageConverter;
+
     @Override
     public void publish(String exchange, Object data) {
-        amqpTemplate.send(exchange, "", new Message(data.toString().getBytes()));
+        amqpTemplate.convertAndSend(exchange, "", data);
     }
 
 

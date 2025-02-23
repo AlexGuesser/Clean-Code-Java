@@ -18,6 +18,9 @@ public interface PaymentGateway {
             String authorizationCode,
             String status
     ) {
+        public boolean success() {
+            return "APPROVED".equalsIgnoreCase(status);
+        }
     }
 
 }

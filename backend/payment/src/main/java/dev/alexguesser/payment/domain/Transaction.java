@@ -13,9 +13,9 @@ public class Transaction {
     private final UUID rideId;
     private final double amount;
     private final long timestamp;
-    private String status;
+    private TransactionStatus status;
 
-    public Transaction(UUID transactionId, UUID rideId, double amount, long timestamp, String status) {
+    public Transaction(UUID transactionId, UUID rideId, double amount, long timestamp, TransactionStatus status) {
         this.transactionId = transactionId;
         this.rideId = rideId;
         this.amount = amount;
@@ -29,16 +29,31 @@ public class Transaction {
                 rideId,
                 amount,
                 Instant.now().toEpochMilli(),
-                WAITING_PAYMENT.getValue()
+                WAITING_PAYMENT
         );
     }
 
     public void pay() {
-        this.status = PAID.getValue();
+        this.status = PAID;
     }
 
-    public String getStatus() {
-        return this.status;
+    public UUID getTransactionId() {
+        return transactionId;
     }
 
+    public UUID getRideId() {
+        return rideId;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public TransactionStatus getStatus() {
+        return status;
+    }
 }

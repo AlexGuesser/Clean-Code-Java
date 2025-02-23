@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import dev.alexguesser.common.messages.RideCompletedMessage;
 import dev.alexguesser.ride.application.gateway.PositionRepositoryGateway;
 import dev.alexguesser.ride.application.gateway.RideRepositoryGateway;
 import dev.alexguesser.ride.application.usecase.input.FinishRideInput;
@@ -39,9 +40,10 @@ public class FinishRide {
                 RideCompletedEvent.eventName,
                 (event) -> {
                     rideRepositoryGateway.updateRide(ride);
+                    RideCompletedEvent rideCompletedEvent = (RideCompletedEvent) event;
                     queue.publish(
                             Exchanges.RIDE_COMPLETED.getName(),
-                            event
+                            new RideCompletedMessage(rideCompletedEvent.rideId(), rideCompletedEvent.amount(), rideCompletedEvent.distance())
                     );
                     return null;
                 }

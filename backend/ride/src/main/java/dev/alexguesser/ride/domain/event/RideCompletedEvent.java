@@ -1,12 +1,12 @@
 package dev.alexguesser.ride.domain.event;
 
-import java.util.UUID;
+import java.io.Serializable;
 
-public record RideCompletedEvent(
-        UUID rideId,
-        double amount,
-        double distance
-) {
+public record RideCompletedEvent(String rideId, double amount, double distance) implements Serializable {
 
     public static String eventName = "rideCompleted";
+
+    public static String getEventName() {
+        return eventName;
+    }
 }

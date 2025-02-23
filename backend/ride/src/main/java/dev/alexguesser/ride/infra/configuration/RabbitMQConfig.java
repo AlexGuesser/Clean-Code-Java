@@ -3,9 +3,11 @@ package dev.alexguesser.ride.infra.configuration;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 
 
 @Configuration
@@ -41,46 +43,48 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    DirectExchange rideRequestedExchange() {
-        return new DirectExchange(RIDE_REQUESTED_EXCHANGE, true, false);
+    FanoutExchange rideRequestedExchange() {
+        return new FanoutExchange(RIDE_REQUESTED_EXCHANGE, true, false);
     }
 
     @Bean
-    DirectExchange rideAcceptedExchange() {
-        return new DirectExchange(RIDE_ACCEPTED_EXCHANGE, true, false);
+    FanoutExchange rideAcceptedExchange() {
+        return new FanoutExchange(RIDE_ACCEPTED_EXCHANGE, true, false);
     }
 
     @Bean
-    DirectExchange rideCompletedExchange() {
-        return new DirectExchange(RIDE_COMPLETED_EXCHANGE, true, false);
+    FanoutExchange rideCompletedExchange() {
+        return new FanoutExchange(RIDE_COMPLETED_EXCHANGE, true, false);
     }
 
     @Bean
-    Binding updateProjectionBinding(@Qualifier("updateProjectionQueue") Queue updateProjectionQueue, @Qualifier("rideRequestedExchange") DirectExchange rideRequestedExchange) {
-        return BindingBuilder.bind(updateProjectionQueue).to(rideRequestedExchange).with("");
+    Binding updateProjectionBinding(@Qualifier("updateProjectionQueue") Queue updateProjectionQueue, @Qualifier("rideRequestedExchange") FanoutExchange rideRequestedExchange) {
+        return BindingBuilder.bind(updateProjectionQueue).to(rideRequestedExchange);
     }
 
     @Bean
-    Binding processPaymentQueueBinding(@Qualifier("processPaymentQueue") Queue processPaymentQueue, @Qualifier("rideCompletedExchange") DirectExchange rideCompletedExchange) {
-        return BindingBuilder.bind(processPaymentQueue).to(rideCompletedExchange).with("");
+    Binding processPaymentQueueBinding(@Qualifier("processPaymentQueue") Queue processPaymentQueue, @Qualifier("rideCompletedExchange") FanoutExchange rideCompletedExchange) {
+        return BindingBuilder.bind(processPaymentQueue).to(rideCompletedExchange);
     }
 
     @Bean
-    Binding generateInvoiceBinding(@Qualifier("generateInvoiceQueue") Queue generateInvoiceQueue, @Qualifier("rideCompletedExchange") DirectExchange rideCompletedExchange) {
-        return BindingBuilder.bind(generateInvoiceQueue).to(rideCompletedExchange).with("");
+    Binding generateInvoiceBinding(@Qualifier("generateInvoiceQueue") Queue generateInvoiceQueue, @Qualifier("rideCompletedExchange") FanoutExchange rideCompletedExchange) {
+        return BindingBuilder.bind(generateInvoiceQueue).to(rideCompletedExchange);
     }
 
     @Bean
-    Binding sendReceiptBinding(@Qualifier("sendReceiptQueue") Queue sendReceiptQueue, @Qualifier("rideCompletedExchange") DirectExchange rideCompletedExchange) {
-        return BindingBuilder.bind(sendReceiptQueue).to(rideCompletedExchange).with("");
+    Binding sendReceiptBinding(@Qualifier("sendReceiptQueue") Queue sendReceiptQueue, @Qualifier("rideCompletedExchange") FanoutExchange rideCompletedExchange) {
+        return BindingBuilder.bind(sendReceiptQueue).to(rideCompletedExchange);
     }
 
     @Bean
-    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory) {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(UPDATE_PROJECTION_QUEUE, PROCESS_PAYMENT_QUEUE, GENERATE_INVOICE_QUEUE, SEND_RECEIPT_QUEUE);
-        container.setMessageListener(message -> {});
-        return container;
+    public MappingJackson2MessageConverter jackson2Converter() {
+        return new MappingJackson2MessageConverter();
     }
+
+    @Bean
+    ApplicationRunner runner(ConnectionFactory cf) {
+        return args -> cf.createConnection().close();
+    }
+
 }

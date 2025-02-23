@@ -123,7 +123,7 @@ public class Ride extends Mediator {
             ).calculate(distance);
         }
         this.status.finish();
-        RideCompletedEvent event = new RideCompletedEvent(this.getRideId(), this.fare, this.distance);
+        RideCompletedEvent event = new RideCompletedEvent(this.getRideId().toString(), this.fare, this.distance);
         this.notify(RideCompletedEvent.eventName, event);
     }
 
