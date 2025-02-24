@@ -17,7 +17,9 @@ public class RideEntityMapper {
                 new Coord(entity.getFromLatitude(), entity.getFromLongitude()),
                 new Coord(entity.getToLatitude(), entity.getToLongitude()),
                 entity.getStatus(),
-                entity.getCreatedAt()
+                entity.getCreatedAt(),
+                entity.getFare(),
+                entity.getDistance()
         );
     }
 
@@ -32,7 +34,9 @@ public class RideEntityMapper {
                 ride.getTo().latitude(),
                 ride.getStatus().getValue(),
                 ride.getCreatedAt(),
-                ride.getStraightDistance()
+                ride.getStraightDistance(),
+                ride.getFare().orElse(null),
+                ride.getDistance().orElse(null)
         );
     }
 

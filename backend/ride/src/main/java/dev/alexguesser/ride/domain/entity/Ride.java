@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import dev.alexguesser.ride.domain.event.RideCompletedEvent;
@@ -25,8 +26,8 @@ public class Ride extends Mediator {
     private Coord to;
     private RideStatus status;
     private long createdAt;
-    private double distance = 0;
-    private double fare = 0;
+    private Double distance;
+    private Double fare;
     private double straightDistance;
 
     public Ride(
@@ -36,7 +37,9 @@ public class Ride extends Mediator {
             Coord from,
             Coord to,
             String status,
-            long createdAt
+            long createdAt,
+            Double fare,
+            Double distance
     ) {
         this.rideId = requireNonNull(rideId);
         this.passengerId = requireNonNull(passengerId);
@@ -46,6 +49,8 @@ public class Ride extends Mediator {
         this.status = requireNonNull(RideStatus.RideStatusFactory.create(status, this));
         this.createdAt = createdAt;
         this.straightDistance = DistanceCalculator.calculate(from, to);
+        this.fare = fare;
+        this.distance = distance;
     }
 
     public static Ride create(
@@ -60,7 +65,9 @@ public class Ride extends Mediator {
                 from,
                 to,
                 "requested",
-                Instant.now().toEpochMilli()
+                Instant.now().toEpochMilli(),
+                null,
+                null
         );
     }
 
@@ -111,8 +118,8 @@ public class Ride extends Mediator {
     }
 
     public void finish(List<Position> positions) {
-        this.distance = 0;
-        this.fare = 0;
+        this.distance = 0.0;
+        this.fare = 0.0;
         for (int i = 0; i < positions.size() - 1; i++) {
             Position position = positions.get(i);
             Position nextPosition = positions.get(i + 1);
@@ -127,12 +134,12 @@ public class Ride extends Mediator {
         this.notify(RideCompletedEvent.eventName, event);
     }
 
-    public double getDistance() {
-        return distance;
+    public Optional<Double> getDistance() {
+        return Optional.ofNullable(distance);
     }
 
-    public double getFare() {
-        return fare;
+    public Optional<Double> getFare() {
+        return Optional.ofNullable(fare);
     }
 
     public void start() {

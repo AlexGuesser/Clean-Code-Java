@@ -19,7 +19,7 @@ public record GetRideOutput(
         RideStatus status,
         UUID driverId,
         List<Position> positions,
-        double distance,
-        double fare,
+        Double distance,
+        Double fare,
         double straightDistance) {
 }

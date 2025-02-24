@@ -33,11 +33,15 @@ public class RideEntity {
     private long createdAt;
     @Column(name = "straight_distance")
     private double straightDistance;
+    @Column(name = "fare")
+    private Double fare;
+    @Column(name = "distance")
+    private Double distance;
 
     public RideEntity() {
     }
 
-    public RideEntity(UUID rideId, UUID passengerId, @Nullable UUID driverId, Double fromLongitude, Double fromLatitude, Double toLongitude, Double toLatitude, String status, long createdAt, Double straightDistance) {
+    public RideEntity(UUID rideId, UUID passengerId, @Nullable UUID driverId, Double fromLongitude, Double fromLatitude, Double toLongitude, Double toLatitude, String status, long createdAt, Double straightDistance, Double fare, Double distance) {
         this.rideId = rideId;
         this.passengerId = passengerId;
         this.driverId = driverId;
@@ -48,6 +52,8 @@ public class RideEntity {
         this.status = status;
         this.createdAt = createdAt;
         this.straightDistance = straightDistance;
+        this.fare = fare;
+        this.distance = distance;
     }
 
     public UUID getRideId() {
@@ -89,5 +95,13 @@ public class RideEntity {
 
     public double getStraightDistance() {
         return straightDistance;
+    }
+
+    public Double getFare() {
+        return fare;
+    }
+
+    public Double getDistance() {
+        return distance;
     }
 }

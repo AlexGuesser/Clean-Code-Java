@@ -42,7 +42,7 @@ public class GetRide {
                 ride.get().getDriverId(),
                 positionsByRideId,
                 distance,
-                ride.get().getFare(),
+                ride.get().getFare().orElse(null),
                 ride.get().getStraightDistance()
         );
 
@@ -50,7 +50,7 @@ public class GetRide {
 
     private double getDistance(Ride ride, List<Position> positions) {
         if (ride.getStatus().getValue().equals("finished")) {
-            return ride.getDistance();
+            return ride.getDistance().get();
         }
         return DistanceCalculator.calculateByPositions(positions);
     }

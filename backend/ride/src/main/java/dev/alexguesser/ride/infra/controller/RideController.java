@@ -16,8 +16,8 @@ import dev.alexguesser.ride.application.usecase.AcceptRide;
 import dev.alexguesser.ride.application.usecase.GetRide;
 import dev.alexguesser.ride.application.usecase.RequestRide;
 import dev.alexguesser.ride.application.usecase.input.RequestRideInput;
-import dev.alexguesser.ride.application.usecase.output.GetRideOutput;
 import dev.alexguesser.ride.domain.service.ChangeStatusService;
+import dev.alexguesser.ride.infra.controller.dto.GetRideDto;
 import dev.alexguesser.ride.infra.controller.dto.NewStatusDto;
 import dev.alexguesser.ride.infra.controller.dto.RequestRideDto;
 import dev.alexguesser.ride.infra.controller.dto.RideDto;
@@ -40,10 +40,11 @@ public class RideController {
 
 
     @GetMapping("/{rideId}")
-    public ResponseEntity<GetRideOutput> getRideById(@PathVariable("rideId") UUID rideId) {
+    public ResponseEntity<GetRideDto> getRideById(@PathVariable("rideId") UUID rideId) {
         return ResponseEntity.ok(
-                getRide.execute(rideId)
-        );
+                GetRideDto.fromOutput(
+                        getRide.execute(rideId)
+                ));
     }
 
     @PostMapping
