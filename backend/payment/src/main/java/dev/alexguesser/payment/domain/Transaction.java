@@ -33,7 +33,7 @@ public class Transaction {
         );
     }
 
-    public void pay() {
+    public void paid() {
         this.status = PAID;
     }
 

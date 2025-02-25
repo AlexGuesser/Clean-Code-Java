@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 
-import jakarta.persistence.EntityNotFoundException;
 
 @ControllerAdvice
 public class RestExceptionHandler {
@@ -19,15 +18,8 @@ public class RestExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(RestExceptionHandler.class);
 
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
-        logger.error("EntityNotFoundException occurred: {}, Request Details: {}", ex.getMessage(), request.getDescription(false), ex);
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
-    }
-
     @ExceptionHandler(HttpClientErrorException.NotFound.class)
-    public ResponseEntity<?> handleEntityNotFoundExceptionByHttpRequest(EntityNotFoundException ex, WebRequest request) {
+    public ResponseEntity<?> handleEntityNotFoundExceptionByHttpRequest(HttpClientErrorException.NotFound ex, WebRequest request) {
         logger.error("EntityNotFoundException occurred: {}, Request Details: {}", ex.getMessage(), request.getDescription(false), ex);
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
@@ -47,5 +39,6 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public record ErrorDetails(Date timestamp, String message, String details){}
+    public record ErrorDetails(Date timestamp, String message, String details) {
+    }
 }

@@ -58,9 +58,20 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    Binding updateProjectionBinding(@Qualifier("updateProjectionQueue") Queue updateProjectionQueue, @Qualifier("rideRequestedExchange") FanoutExchange rideRequestedExchange) {
+    Binding rideRequestedUpdateProjectionBinding(@Qualifier("updateProjectionQueue") Queue updateProjectionQueue, @Qualifier("rideRequestedExchange") FanoutExchange rideRequestedExchange) {
         return BindingBuilder.bind(updateProjectionQueue).to(rideRequestedExchange);
     }
+
+    @Bean
+    Binding acceptedRideUpdateProjectionBinding(@Qualifier("updateProjectionQueue") Queue updateProjectionQueue, @Qualifier("rideAcceptedExchange") FanoutExchange rideAcceptedExchange) {
+        return BindingBuilder.bind(updateProjectionQueue).to(rideAcceptedExchange);
+    }
+
+    @Bean
+    Binding completedRideUpdateProjectionBinding(@Qualifier("updateProjectionQueue") Queue updateProjectionQueue, @Qualifier("rideCompletedExchange") FanoutExchange rideCompletedExchange) {
+        return BindingBuilder.bind(updateProjectionQueue).to(rideCompletedExchange);
+    }
+
 
     @Bean
     Binding processPaymentQueueBinding(@Qualifier("processPaymentQueue") Queue processPaymentQueue, @Qualifier("rideCompletedExchange") FanoutExchange rideCompletedExchange) {

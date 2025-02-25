@@ -1,15 +1,14 @@
 package dev.alexguesser.ride.application.usecase;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import dev.alexguesser.common.messages.RideAcceptedMessage;
 import dev.alexguesser.ride.application.gateway.RideRepositoryGateway;
 import dev.alexguesser.ride.application.usecase.input.AcceptRideInput;
 import dev.alexguesser.ride.domain.entity.Ride;
-import dev.alexguesser.ride.domain.event.RideAcceptedEvent;
 import dev.alexguesser.ride.infra.gateway.AccountGateway;
 import dev.alexguesser.ride.infra.queue.Exchanges;
 import dev.alexguesser.ride.infra.queue.QueueGateway;
@@ -42,10 +41,11 @@ public class AcceptRide {
         ride.get().accept(input.rideId());
         rideRepositoryGateway.updateRide(ride.get());
         queue.publish(
-                Exchanges.RIDE_ACCEPTED.name(),
-                new RideAcceptedEvent(
-                        ride.get().getRideId(),
-                        UUID.fromString(account.accountId())
+                Exchanges.RIDE_ACCEPTED.getName(),
+                new RideAcceptedMessage(
+                        ride.get().getRideId().toString(),
+                        account.accountId(),
+                        account.name()
                 )
         );
     }

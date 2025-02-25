@@ -30,10 +30,10 @@ public class ProcessPayment {
         PaymentGateway.Input gatewayInput = getSamplePaymentGatewayInput(input);
         try {
             PaymentGateway.Output output = paymentProcessor.process(gatewayInput);
-            if(output.success()) {
-                transaction.pay();
-                transactionRepositoryGateway.saveTransaction(transaction);
+            if (output.success()) {
+                transaction.paid();
             }
+            transactionRepositoryGateway.saveTransaction(transaction);
         } catch (Exception e) {
             logger.error("Error processing payment", e);
         }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RideRepository extends JpaRepository<RideEntity, UUID> {
     @Query(
-            value = "select count(*)>0 from ccca.ride where passenger_id = :passengerId and status not in ('completed', 'cancelled')",
+            value = "select count(*)>0 from ccca.ride where passenger_id = :passengerId and status not in ('finished', 'cancelled')",
             nativeQuery = true
     )
     boolean hasActiveRideByPassengerId(@Param("passengerId") UUID passengerId);
